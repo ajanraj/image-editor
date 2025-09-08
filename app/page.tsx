@@ -23,7 +23,7 @@ import GeminiKeyButton from "@/components/gemini/gemini-key-button";
 import { useGeminiKey } from "@/lib/gemini-key-context";
 import { generateImageFromPrompt } from "@/lib/gemini";
 import { toast } from "sonner";
-import { Info, X } from "lucide-react";
+import { X } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -486,8 +486,11 @@ function Flow() {
           <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-black/70 to-black/50 p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.06)_inset] backdrop-blur">
             <div className="mb-2 flex items-center justify-between">
               <div className="flex items-center gap-2 text-white">
-                <Info className="h-4 w-4 opacity-80" />
-                <h2 className="text-sm font-semibold tracking-wide">Image Editor · Gemini 2.5 (Preview)</h2>
+                <span role="img" aria-label="banana" className="text-sm leading-none opacity-80">🍌</span>
+                <h2 className="text-sm font-semibold tracking-wide leading-snug">
+                  <span>Nano Banana</span>
+                  <span className="block text-white/80">Create, remix, download</span>
+                </h2>
               </div>
               <button
                 aria-label="Collapse guide"
@@ -536,7 +539,7 @@ function Flow() {
             onClick={() => setGuideOpen(true)}
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 h-9 text-xs text-white hover:bg-black/70 backdrop-blur"
           >
-            <Info className="h-4 w-4" />
+            <span role="img" aria-label="banana" className="text-sm leading-none">🍌</span>
             <span>Guide</span>
           </button>
         </div>

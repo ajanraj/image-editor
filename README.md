@@ -1,6 +1,6 @@
 # Image editor powered by gemini 2.5 flash image (Nano Banana)
 
-Node‑based image generator and editor on Next.js 15 + React 19. Create from text, edit from images, or combine multiple sources into a new result using a canvas powered by React Flow (XYFlow). Uses Google’s Generative AI (Gemini) in the browser via `@google/genai` and the `gemini-2.5-flash-image-preview` model.
+Nano Banana image generator and editor on Next.js 15 + React 19. Create from text, edit from images, or combine multiple sources into a new result using a canvas powered by React Flow (XYFlow). Uses Google’s Generative AI (Gemini) in the browser via `@google/genai` and the `gemini-2.5-flash-image-preview` model.
 
 
 ## Features

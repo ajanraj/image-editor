@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Banana emoji favicon as SVG text -->
+  <style>
+    text { font: 48px sans-serif; }
+  </style>
+  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle">🍌</text>
+  <!-- Transparent background; relies on system emoji font rendering -->
+  <title>banana</title>
+  <desc>Emoji-based favicon for nano banana editor</desc>
+</svg>
+
