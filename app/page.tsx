@@ -20,10 +20,14 @@ import {
 import { TextNode } from "@/components/nodes/text-node";
 import { ImageNode } from "@/components/nodes/image-node";
 import GeminiKeyButton from "@/components/gemini/gemini-key-button";
+import { Button } from "@/components/ui/button";
+import Onboarding from "@/components/onboarding";
 import { useGeminiKey } from "@/lib/gemini-key-context";
 import { generateImageFromPrompt } from "@/lib/gemini";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { X, ExternalLink } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Accordion,
   AccordionContent,
@@ -48,6 +52,16 @@ function Flow() {
     useReactFlow();
   const { apiKey } = useGeminiKey();
   const lastDownloadAtRef = useRef<Map<string, number>>(new Map());
+  // Platform-specific shortcut icons for guide text
+  const isMac =
+    typeof navigator !== "undefined" &&
+    (/Mac|iPhone|iPad|iPod/i.test(navigator.platform) ||
+      /Mac|iPhone|iPad|iPod/i.test(
+        // @ts-ignore userAgentData may not exist in types
+        (navigator as any).userAgentData?.platform || navigator.userAgent || "",
+      ));
+  const keyCmd = isMac ? "⌘" : "Ctrl";
+  const keyShift = isMac ? "⇧" : "Shift";
 
   const saveUrlAs = useCallback(async (url: string, name?: string) => {
     try {
@@ -514,13 +528,45 @@ function Flow() {
                 <AccordionTrigger className="text-sm">Create & Generate</AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-2 text-xs text-white/80">
-                    <p>• Cmd/Ctrl+Click to add a Text node. Shift+Cmd/Ctrl+Click to add an empty Image node.</p>
+                    <p>
+                      • <span className="inline-block rounded bg-white/10 px-1">{keyCmd}</span>
+                      +Click to add a Text node.
+                    </p>
+                    <p>
+                      • <span className="inline-block rounded bg-white/10 px-1">{keyShift}</span>
+                      +<span className="inline-block rounded bg-white/10 px-1">{keyCmd}</span>
+                      +Click to add an empty Image node.
+                    </p>
                     <p>• Connect Image bottom → Text top/left/right. You can connect multiple images into one text.</p>
-                    <p>• Type a prompt in the Text node and submit (button or Cmd/Ctrl+Enter) to generate a new image.</p>
+                    <p>
+                      • Type a prompt in the Text node and submit (button or{' '}
+                      <span className="inline-block rounded bg-white/10 px-1">{keyCmd}</span>
+                      +Enter) to generate a new image.
+                    </p>
                   </div>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="g3">
+                <AccordionTrigger className="text-sm">Slash Commands</AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-2 text-xs text-white/80">
+                    <p className="mb-2">Type <span className="inline-block rounded bg-white/10 px-1">/</span> in any Text node for AI-powered presets:</p>
+                    <div className="space-y-1">
+                      <p>• <span className="text-yellow-400">/film</span> - Fujifilm film simulations</p>
+                      <p>• <span className="text-yellow-400">/retouch</span> - Professional retouching</p>
+                      <p>• <span className="text-yellow-400">/makeup</span> - Add or adjust makeup</p>
+                      <p>• <span className="text-yellow-400">/remove</span> - Remove objects/people</p>
+                      <p>• <span className="text-yellow-400">/weather</span> - Change atmosphere</p>
+                      <p>• <span className="text-yellow-400">/hair</span> - Edit hairstyle & color</p>
+                      <p>• <span className="text-yellow-400">/outfit</span> - Change clothing</p>
+                      <p>• <span className="text-yellow-400">/background</span> - Replace backgrounds</p>
+                      <p>• <span className="text-yellow-400">/style</span> - Apply color grading</p>
+                    </div>
+                    <p className="mt-2 text-white/60">Each command offers presets for quick results!</p>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="g4">
                 <AccordionTrigger className="text-sm">Features</AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-2 text-xs text-white/80">
@@ -545,7 +591,38 @@ function Flow() {
         </div>
       )}
       {/* Top-right Gemini API key button (in-memory only) */}
-      <div className="pointer-events-auto absolute right-4 top-4 z-50">
+      <div className="pointer-events-auto absolute right-4 top-4 z-50 flex items-center gap-2">
+        <Popover>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label="Projects"
+                  className="h-10 w-10 rounded-full"
+                >
+                  <span role="img" aria-label="banana" className="text-lg">🍌</span>
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent sideOffset={6}>Projects</TooltipContent>
+          </Tooltip>
+          <PopoverContent align="end" sideOffset={8} className="w-64 p-0">
+            <div className="p-3">
+              <div className="mb-2 text-xs text-white/70">Check out my other projects</div>
+              <a
+                href="https://oschat.ai/?utm_source=nano-banana&utm_medium=app&utm_campaign=projects-popover"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between rounded-md border border-white/10 bg-black/40 px-3 py-2 text-sm text-white hover:bg-black/50"
+              >
+                <span>oschat.ai</span>
+                <ExternalLink className="h-4 w-4 opacity-70" />
+              </a>
+            </div>
+          </PopoverContent>
+        </Popover>
         <GeminiKeyButton />
       </div>
       <ReactFlow
@@ -575,6 +652,7 @@ function Flow() {
 export default function Home() {
   return (
     <ReactFlowProvider>
+      <Onboarding />
       <Flow />
     </ReactFlowProvider>
   );
