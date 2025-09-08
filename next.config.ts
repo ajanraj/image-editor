@@ -23,6 +23,6 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-}
+} 
 
 export default nextConfig;
